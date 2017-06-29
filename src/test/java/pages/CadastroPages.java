@@ -1,18 +1,30 @@
 package pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import junit.framework.Assert;
+
 public class CadastroPages {
 	private WebDriver driver;
+	
+	
+	private boolean acceptNextAlert = true;
+	private StringBuffer verificationErrors = new StringBuffer();
+	  
 
 	public CadastroPages(WebDriver driver) {
 
 		this.driver = driver;
 	}
 
+	//------------------------ACAO DO LOGIN --------------------
+	
 	public void login() {
 
 		WebElement login = driver.findElement(By.id("username"));
@@ -26,6 +38,19 @@ public class CadastroPages {
 
 	}
 
+	public void acaoLogout() throws InterruptedException {
+
+		// Efetuar logout do Sistema
+
+		Thread.sleep(1000);
+
+		driver.findElement(By.cssSelector("i.icon-chevron-down.icon-white")).click();
+		driver.findElement(By.id("cloud_accout_logout")).click();
+
+	}
+
+	//------------------------MODULO MASTER --------------------
+	
 	// Busca a conta no ambiente Master
 	public void buscaContaMaster() {
 
@@ -52,12 +77,18 @@ public class CadastroPages {
 
 	}
 
+	
+	//------------------------MODULO TRACKS --------------------
+
 	public void acessandoModuloTracks() throws InterruptedException {
 		// Acessando Modulo Tracks
 		WebElement moduloTracks = driver.findElement(By.linkText("Tracks"));
 		moduloTracks.click();
 		Thread.sleep(1000);
 	}
+
+
+	//------------------------ACAO DO MODULO TRACKS --------------------
 
 	public void buscaDeProcessoAutomatizado() throws InterruptedException {
 		// Fazendo a busca.
@@ -183,9 +214,6 @@ public class CadastroPages {
 
 	// Validando mensagem com sucesso
 	public String validarMensagem() {
-
-		// errormsg errormsg_0_GmailAddress
-		// Pega o texto do erro.
 
 		return driver.findElement(By.cssSelector("div.alert.alert-success")).getText();
 
@@ -353,65 +381,251 @@ public class CadastroPages {
 		acaoSalvarAtividadeDoProcesso();
 
 	}
+	
+	//------------------------MODULO DAM --------------------
 
-	public void acaoLogout() throws InterruptedException {
+	public void acessandoModuloDAM() throws InterruptedException {
+		// Acessando Modulo Tracks
+		WebElement moduloDAM = driver.findElement(By.linkText("DAM"));
+		moduloDAM.click();
+		Thread.sleep(1000);
+	}
+	
+	
+	//------------------------ACAO DO MODULO DAM --------------------
+	
+	
+	public void estruturaPasta()  throws InterruptedException{
 
-		// Efetuar logout do Sistema
+
+		driver.findElement(By.id("dam_index_folder_1")).click();
+		driver.findElement(By.id("dam_index_folder_4")).click();
+		driver.findElement(By.id("dam_index_folder_1")).click();
+
+	}
+	
+	public void PrimeiraPasta()  throws InterruptedException{
+
+		driver.findElement(By.id("dam_index_folder_1")).click();
+		
+		WebElement pastaColecao = driver.findElement(By.linkText("Colecao"));
+		pastaColecao.click();
+		Thread.sleep(1000);
+	
+	}
+	public void acaoCriarDiretorioDAM()  throws InterruptedException{
+
+
+		String x = "A144";
+		driver.findElement(By.id("dam_index_upload_new")).click(); 
+		driver.findElement(By.id("dam_index_upload_dir")).click();
+		Thread.sleep(800);
+		driver.findElement(By.id("diretorio_nome")).clear();
+		driver.findElement(By.id("diretorio_nome")).sendKeys(x);
+		Thread.sleep(800);
+		driver.findElement(By.id("dam_action_new_dir_submit")).click();
+		Thread.sleep(800);
+
+	}
+	
+	public void AcaoExcluirDAM() throws InterruptedException{
+
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement seletorDeacao = driver.findElement(By.cssSelector("#dam_file_dropdown_1 > i.icon-chevron-down"));
+		executor.executeScript("arguments[0].click();", seletorDeacao);
+		
+		WebElement acaoRemover = driver.findElement(By.cssSelector("#dam_acao_remover_arquivo_1 > i.icon-trash"));
+		executor.executeScript("arguments[0].click();", acaoRemover);
 
 		Thread.sleep(1000);
+			
+		driver.findElement(By.id("dam_action_remove_submit")).click();    
 
-		driver.findElement(By.cssSelector("i.icon-chevron-down.icon-white")).click();
-		driver.findElement(By.id("cloud_accout_logout")).click();
+	}	  
 
-	}
-
-	public void preencherCampos88() {
-
-		WebElement nome = driver.findElement(By.id("FirstName"));
-		nome.sendKeys("Anderson");
-
-		WebElement sobrenome = driver.findElement(By.id("LastName"));
-		sobrenome.sendKeys("Dog");
-
-		WebElement email = driver.findElement(By.id("GmailAddress"));
-		email.sendKeys("dog.rolim@gmail.com");
-
-		WebElement password = driver.findElement(By.id("Passwd"));
-		password.sendKeys("ruthrolim");
-
-		WebElement confirmaPassword = driver.findElement(By.id("PasswdAgain"));
-		confirmaPassword.sendKeys("ruthrolim");
-
-		WebElement dia = driver.findElement(By.id("BirthDay"));
-		dia.sendKeys("22");
-
-		WebElement mes = driver.findElement(By.xpath("//*[@id='BirthMonth']"));
-		mes.click();
-
-		WebElement mesdeoutubro = driver.findElement(By.xpath("//*[@id=':a']/div"));
-		mesdeoutubro.click();
-
-		WebElement ano = driver.findElement(By.id("BirthYear"));
-		ano.sendKeys("1983");
-
-		WebElement sexo = driver.findElement(By.xpath("//*[@id='Gender']/div[1]"));
-		sexo.click();
-
-		WebElement sexomasculino = driver.findElement(By.xpath("//*[@id=':f']/div"));
-		sexomasculino.click();
-
-		WebElement telefone = driver.findElement(By.xpath("//*[@id='RecoveryPhoneNumber']"));
-		telefone.sendKeys(" 11 39961379");
-
-		WebElement emailresgate = driver.findElement(By.xpath("//*[@id='RecoveryEmailAddress']"));
-		emailresgate.sendKeys("automatizador@gmail.com");
-
-		WebElement passoseguinte = driver.findElement(By.xpath("//*[@id='submitbutton']"));
-		passoseguinte.submit();
-
-		// *[@id="RecoveryPhoneNumber"]
-		// *[@id=":f"]/div
+	public void AcaoBuscarDAM() throws InterruptedException{
+		Thread.sleep(1000);
+		//Fazer busca por diretório
+		driver.findElement(By.id("dam_navegation_index_search_input")).clear();
+		driver.findElement(By.id("dam_navegation_index_search_input")).sendKeys("Automatizando28");
+		driver.findElement(By.cssSelector("button")).click();
 
 	}
+	
+	//------------------------MODULO DRM --------------------
 
+	public void acessandoModuloDRM() throws InterruptedException {
+		// Acessando Modulo Tracks
+		WebElement moduloDRM = driver.findElement(By.linkText("DRM"));
+		moduloDRM.click();
+		Thread.sleep(1000);
+	}
+	
+	
+	//------------------------ACAO DO MODULO DRM --------------------
+	
+	
+	public void drmArquivoDiretorio() throws InterruptedException{
+	
+		Thread.sleep(1000);
+		ordenacaoDRM();
+		AcaoCriarDireitoDeUsoArquivo();
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Direito de uso editado com sucesso.");
+		ordenacaoDRM();
+		AcaoCriarDireitoDeUsoPasta();
+
+
+	}
+	
+	
+	  public void AcaoCriarDireitoDeUsoArquivo() throws InterruptedException{
+
+		    driver.findElement(By.id("new-process-instance")).click();
+		    driver.findElement(By.cssSelector("#direito_uso_novo_arquivo_link > i")).click();
+		
+			Thread.sleep(800);
+			WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
+			agencia.click();
+			
+			Thread.sleep(800);
+			WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
+			anunciante.click();
+			
+			Thread.sleep(800);
+			WebElement Com_Data = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
+			Com_Data.click();
+	
+			driver.findElement(By.id("form_727_field_799")).clear();
+		    driver.findElement(By.id("form_727_field_799")).sendKeys("121241-Arquivo");
+		    driver.findElement(By.id("form_727_field_800")).clear();
+		    driver.findElement(By.id("form_727_field_800")).sendKeys("DRM-Automatizado-Arquivo");
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.id("form_727_field_802")).click();
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.linkText("1")).click();
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.id("form_727_field_803")).click();
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e")).click();
+
+		    driver.findElement(By.linkText("31")).click();
+		    
+		    driver.findElement(By.id("form_727_field_804")).clear();
+		    driver.findElement(By.id("form_727_field_804")).sendKeys("O que é Lorem Ipsum? "
+		    		+ "Lorem Ipsum é simplesmente uma simulação de texto da indústria "
+		    		+ "tipográfica e de impressos, e vem sendo utilizado desde o "
+		    		+ "século XVI, quando um impressor desconhecido pegou uma bandeja "
+		    		+ "de tipos e os embaralhou para fazer um livro de modelos de tipos. "
+		    		+ "Lorem Ipsum sobreviveu não só a cinco séculos, como também ao "
+		    		+ "salto para a editoração eletrônica, permanecendo essencialmente "
+		    		+ "inalterado. Se popularizou na década de 60, quando a Letraset "
+		    		+ "lançou decalques contendo passagens de Lorem Ipsum, e mais "
+		    		+ "recentemente quando passou a ser integrado a softwares de "
+		    		+ "editoração eletrônica como Aldus PageMaker.");
+		    
+		    driver.findElement(By.name("btn")).click();
+		    		  
+	}	 
+	
+	  public void AcaoCriarDireitoDeUsoPasta() throws InterruptedException{
+
+		    driver.findElement(By.id("new-process-instance")).click();
+		    driver.findElement(By.cssSelector("#direito_uso_novo_diretório_link > i")).click();
+		
+			Thread.sleep(800);
+			WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
+			agencia.click();
+			
+			Thread.sleep(800);
+			WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
+			anunciante.click();
+			
+			Thread.sleep(800);
+			WebElement Com_Data = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
+			Com_Data.click();
+	
+			int x=0;
+			driver.findElement(By.id("form_727_field_799")).clear();
+		    driver.findElement(By.id("form_727_field_799")).sendKeys("121245-Pasta-"+x+"-Pasta");
+		    driver.findElement(By.id("form_727_field_800")).clear();
+		    driver.findElement(By.id("form_727_field_800")).sendKeys("DRM-Automatizado-Pasta");
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.id("form_727_field_802")).click();
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.linkText("1")).click();
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.id("form_727_field_803")).click();
+		    
+		    Thread.sleep(800);
+		    
+		    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e")).click();
+
+		    driver.findElement(By.linkText("31")).click();
+		    
+		    driver.findElement(By.id("form_727_field_804")).clear();
+		    driver.findElement(By.id("form_727_field_804")).sendKeys("Lorem ipsum dolor sit amet, amet auctor et elementum "
+		    		+ "eget, nam imperdiet eros lorem dui ad, lectus vel vehicula, leo leo ipsum quam, erat et tristique magna "
+		    		+ "mauris. Quisque sodales erat, porttitor quisque tellus scelerisque, elit vel, pharetra integer minim "
+		    		+ "auctor aenean enim. In purus pharetra, congue in leo. Ea feugiat sed, arcu urna a morbi at arcu convallis, "
+		    		+ "class orci senectus eu facilisis, sed sed vivamus iaculis duis et posuere, duis nulla. Quis nibh nam, dui "
+		    		+ "molestie lorem ipsum urna convallis. Proin tincidunt nulla ullamcorper vulputate mauris dolor, nunc ligula, "
+		    		+ "nec eros. Vel tincidunt felis porttitor, sem sagittis in rutrum enim amet, mollis nulla rutrum sit facilisis, "
+		    		+ "mattis ante mi conubia in in.\nLacus erat sem elit odio dolor, quisque dignissim maecenas penatibus, pharetra "
+		    		+ "dictum pellentesque, et vehicula. Orci risus risus. Massa amet id sodales lacus, habitant aliquam sociosqu"
+		    		+ " aliquam elit, ullamcorper ut sed neque, morbi vitae et, enim sed porttitor. Nulla vel sit habitant elit, "
+		    		+ "luctus blandit, dui orci ipsum cum, vestibulum nulla augue mollis quis gravida. Non ut libero dui suscipit, "
+		    		+ "donec integer, ipsum erat accumsan purus nulla ligula erat, rhoncus a, aliquam interdum nunc ultrices. Nec "
+		    		+ "bibendum orci quis nisl amet nullam, non dis metus metus mauris.\nViverra lectus dictum eget sed, "
+		    		+ "consectetuer fames ante, donec ac vulputate nunc ultricies id ut, mollis eros ac justo nisl arcu libero. "
+		    		+ "Vehicula facilis integer. Voluptas lacinia consequat amet maecenas eleifend vitae. Quam libero facilisis, "
+		    		+ "imperdiet donec. Felis sed parturient sed nunc, sollicitudin ac, arcu a tortor mi tristique erat. "
+		    		+ "Vestibulum mattis lacinia, morbi in, bibendum libero ante libero hendrerit, urna et eget eget. "
+		    		+ "Vel montes vitae porttitor.");
+		    
+		    driver.findElement(By.name("btn")).click();
+		    	  
+	}	 
+
+		public void buscaDRM() throws InterruptedException{
+			
+			Thread.sleep(1000);
+		    driver.findElement(By.cssSelector("i.icon-filter")).click();
+		    driver.findElement(By.id("tipo_controlado")).click();
+		    driver.findElement(By.id("excludeOverdue")).click();
+		    driver.findElement(By.id("add-advanced-search")).click();
+		    Thread.sleep(800);
+
+		}
+		
+		public void ordenacaoDRM() throws InterruptedException{
+			
+			Thread.sleep(1000);
+
+		    driver.findElement(By.xpath("//a[contains(text(),'Tipo')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Vigência')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Título')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Código')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Data vencimento')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Data inicial')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Anunciante')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Agência')]")).click();
+
+		   // driver.findElement(By.xpath("/html/body/div[6]/div/div/div[2]/div[2]/div[1]/button"));
+		    		
+
+		}
+		
 }

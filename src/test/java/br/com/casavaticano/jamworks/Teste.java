@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -44,6 +45,9 @@ public class Teste {
 	public void Teste3() throws InterruptedException {
 		cadastroPages.seletorDeConta();
 	}
+	
+//----------------------TRACKS
+
 
 	@Test
 	public void Teste4() throws InterruptedException {
@@ -111,14 +115,82 @@ public class Teste {
 
 	}
 	
+	
+//------------------------MODULO DAM --------------------
 
+	//------------------------DAM------------------------
 	@Test
 	public void Teste15() throws InterruptedException {
+		cadastroPages.acessandoModuloDAM();
+
+	}
+	
+	@Test
+	public void Teste16() throws InterruptedException {
+		cadastroPages.estruturaPasta();
+
+	}
+
+	@Test
+	public void Teste17() throws InterruptedException {
+		
+		cadastroPages.acaoCriarDiretorioDAM();
+	}
+	
+	
+	@Test
+	public void Teste18() throws InterruptedException {
+		Assert.assertEquals(cadastroPages.validarMensagem(), "×" + "\n" + "Pasta criada com sucesso.");
+	}
+
+	
+	//------------------------MODULO DRM --------------------
+
+	
+
+	@Test
+	public void Teste20() throws InterruptedException {
+		
+		cadastroPages.acessandoModuloDRM();
+		
+		
+	}
+	
+	@Test
+	public void Teste21() throws InterruptedException {
+		
+		cadastroPages.drmArquivoDiretorio();
+		
+		
+	}
+	
+	@Test
+	public void Teste22() throws InterruptedException {
+		Assert.assertEquals(cadastroPages.validarMensagem(), "×" + "\n" + "Direito de uso editado com sucesso.");
+	}
+	@Test
+	public void Teste23() throws InterruptedException {
+		
+		cadastroPages.buscaDRM();
+		
+	}
+	
+	@Test
+	public void Teste24() throws InterruptedException {
+		
+		cadastroPages.ordenacaoDRM();
+		
+	}
+	
+
+	@Test
+	public void Teste25() throws InterruptedException {
 		// Mensagem da atividade salva
 		cadastroPages.acaoLogout();
 
 	}
 
+	
 	// Close Driver
 	@AfterClass
 	public static void tearDown() {
