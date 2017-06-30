@@ -47,7 +47,7 @@ public class Teste {
 		cadastroPages.seletorDeConta();
 	}
 	
-//----------------------TRACKS
+/*----------------------TRACKS
 
 
 	@Test
@@ -117,7 +117,8 @@ public class Teste {
 	}
 	
 	
-//------------------------MODULO DAM --------------------
+*/
+	//------------------------MODULO DAM --------------------
 
 	//------------------------DAM------------------------
 	
@@ -146,16 +147,46 @@ public class Teste {
 	}
 
 	
-	//--------------------------------------------------
+	//Acoes do arquivo e pasta do DAM 
+	
+	
+
+	public void Teste19() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.AcaoBuscarPastaDeImagemNoDAM();
+	}
+	
+	public void Teste20() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoCompartilhamentoDeArquivoNoDAM();
+	}
+	
+	public void Teste21() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoRenomearArquivoNoDAM();
+	}
+	
+	public void Teste22() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoFavoritoDeArquivoNoDAM();
+	}
+		
+
+	//-------------------------------
+	
 	
 	@Test
-	public void Teste19() throws InterruptedException {
+	public void Teste23() throws InterruptedException {
 		
 		cadastroPages.AcaoBuscarDAM();
 	}
 	
 	@Test
-	public void Teste20() throws InterruptedException, AWTException {
+	public void Teste24() throws InterruptedException, AWTException {
 		
 		//Compartilhar pasta
 		cadastroPages.acaoCompartilhamentoDAM();
@@ -163,52 +194,27 @@ public class Teste {
 	}
 	
 	@Test
-	public void Teste21() throws InterruptedException {
+	public void Teste25() throws InterruptedException {
 		
 		//Renomear pasta
 		cadastroPages.acaoRenomearDAM();
 				
 	}
 	@Test
-	public void Teste22() throws InterruptedException {
+	public void Teste26() throws InterruptedException {
 		
 		//Incluir Pasta no favorito
 		cadastroPages.acaoFavoritoDAM();
 	}
 
 	@Test
-	public void Teste23() throws InterruptedException {
+	public void Teste27() throws InterruptedException {
 		
 		//Excluir pasta
 		cadastroPages.acaoExcluirDAM();		
 				
 	}
-	
-	public void Teste24() throws InterruptedException {
-		
-		//Buscar a pasta de imagem
-		cadastroPages.AcaoBuscarPastaDeImagemNoDAM();
-	}
-	
-	public void Teste25() throws InterruptedException {
-		
-		//Buscar a pasta de imagem
-		cadastroPages.acaoCompartilhamentoDeArquivoNoDAM();
-	}
-	
-	public void Teste26() throws InterruptedException {
-		
-		//Buscar a pasta de imagem
-		cadastroPages.acaoRenomearArquivoNoDAM();
-	}
-	
-	public void Teste27() throws InterruptedException {
-		
-		//Buscar a pasta de imagem
-		cadastroPages.acaoFavoritoDeArquivoNoDAM();
-	}
-		
-	
+/*		
 	//------------------------MODULO DRM --------------------
 
 	
@@ -251,7 +257,7 @@ public class Teste {
 		cadastroPages.acaoLogout();
 
 	}
-
+*/
 	
 	// Close Driver
 	@AfterClass

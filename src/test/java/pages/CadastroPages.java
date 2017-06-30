@@ -690,7 +690,7 @@ public class CadastroPages {
 	}	  
 	
 	public void AcaoBuscarPastaDeImagemNoDAM() throws InterruptedException{
-		Thread.sleep(1000);
+		Thread.sleep(4000);
 		//Fazer busca por diretório
 		driver.findElement(By.id("dam_navegation_index_search_input")).clear();
 		driver.findElement(By.id("dam_navegation_index_search_input")).sendKeys("Imagens_Automacao");
