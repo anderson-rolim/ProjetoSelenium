@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.awt.AWTException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -66,7 +67,7 @@ public class TesteEclusao {
 			cadastroPages.estruturaPasta();
 
 		}
-		
+		/*
 		@Test
 		public void Teste17() throws InterruptedException {
 			
@@ -80,8 +81,7 @@ public class TesteEclusao {
 			Assert.assertEquals(cadastroPages.validarMensagem(), "×" + "\n" + "Pasta criada com sucesso.");
 		}
 
-	
-/*		
+
 		@Test
 		public void Teste19() throws InterruptedException {
 			
@@ -89,14 +89,50 @@ public class TesteEclusao {
 		}
 		
 		@Test
-		public void Teste20() throws InterruptedException {
+		public void Teste20() throws InterruptedException, AWTException {
 			
-			cadastroPages.AcaoExcluirDAM();
+			//Compartilhar pasta
+			cadastroPages.acaoCompartilhamentoDAM();
+			//cadastroPages.uploadNoDAM();
 			
 			
 		}
-*/
+		
+		@Test
+		public void Teste21() throws InterruptedException {
+			
+			//Renomear pasta
+			cadastroPages.acaoRenomearDAM();
+					
+		}
+		@Test
+		public void Teste22() throws InterruptedException {
+			
+			//Incluir Pasta no favorito
+			cadastroPages.acaoFavoritoDAM();
+		}
+		
+		@Test
+		public void Teste23() throws InterruptedException {
+			
+			//Excluir pasta
+			cadastroPages.acaoExcluirDAM();
+					
+		}	*/
 
+		@Test
+		public void Teste24() throws InterruptedException {
+			
+						
+			cadastroPages.AcaoBuscarPastaDeImagemNoDAM();
+			cadastroPages.acaoCompartilhamentoDeArquivoNoDAM();
+			cadastroPages.acaoRenomearArquivoNoDAM();
+			cadastroPages.acaoFavoritoDeArquivoNoDAM();
+					
+		}
+
+	
+/*
 		//------------------------MODULO DRM --------------------
 
 		
@@ -134,6 +170,8 @@ public class TesteEclusao {
 			cadastroPages.ordenacaoDRM();
 			
 		}
+		
+		*/
 
 /*
 		@Test

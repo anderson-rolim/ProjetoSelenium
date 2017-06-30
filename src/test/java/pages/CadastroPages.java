@@ -1,5 +1,13 @@
 package pages;
 
+import java.awt.AWTException;
+import java.awt.List;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.io.File;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -241,8 +249,11 @@ public class CadastroPages {
 	public void formularioPeca() throws InterruptedException {
 		Thread.sleep(1000);
 
-		driver.findElement(By.id("form_2_field_1")).clear();
-		driver.findElement(By.id("form_2_field_1")).sendKeys("Teste Automatizado");
+		WebElement limparCampoTitulo = driver.findElement(By.id("form_2_field_1"));
+		limparCampoTitulo.clear();
+		
+		WebElement CampoTitulo = driver.findElement(By.id("form_2_field_1"));
+		CampoTitulo.sendKeys("Teste Automatizado");
 
 		Thread.sleep(1000);
 		WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_2_field_3']/option[3]"));
@@ -416,7 +427,7 @@ public class CadastroPages {
 	public void acaoCriarDiretorioDAM()  throws InterruptedException{
 
 
-		String x = "A144";
+		String x = " A14488";
 		driver.findElement(By.id("dam_index_upload_new")).click(); 
 		driver.findElement(By.id("dam_index_upload_dir")).click();
 		Thread.sleep(800);
@@ -428,38 +439,284 @@ public class CadastroPages {
 
 	}
 	
-	public void AcaoExcluirDAM() throws InterruptedException{
+	public void acaoCompartilhamentoDAM() throws InterruptedException{
 
+	
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		
-		WebElement seletorDeacao = driver.findElement(By.cssSelector("#dam_file_dropdown_1 > i.icon-chevron-down"));
+		WebElement seletorDeacao = driver.findElement(By.xpath(".//*[@id='dam_acao_compartilhar_diretorio_1']/i"));
 		executor.executeScript("arguments[0].click();", seletorDeacao);
-		
-		WebElement acaoRemover = driver.findElement(By.cssSelector("#dam_acao_remover_arquivo_1 > i.icon-trash"));
-		executor.executeScript("arguments[0].click();", acaoRemover);
-
-		Thread.sleep(1000);
 			
-		driver.findElement(By.id("dam_action_remove_submit")).click();    
-
+		Thread.sleep(1000);
+	    
+		WebElement limparCampoTitulo = driver.findElement(By.id("shared_link_titulo"));
+		limparCampoTitulo.clear();
+	    
+		WebElement campoTitulo             = driver.findElement(By.id("shared_link_titulo"));
+		campoTitulo.sendKeys("Email Automatizado");
+		
+		WebElement receberCopia            = driver.findElement(By.id("shared_link_cc"));
+		receberCopia.click();
+		
+		WebElement limparCampoEmails       = driver.findElement(By.id("shared_link_emails"));
+		limparCampoEmails.clear();
+		
+		WebElement campoEmails             = driver.findElement(By.id("shared_link_emails"));
+		campoEmails.sendKeys("anderson.rolim@casavaticano.com.br");
+		
+		WebElement limparCampoObservacoess = driver.findElement(By.id("shared_link_obs"));
+		limparCampoObservacoess.clear();
+		
+		WebElement campoObservacoess       = driver.findElement(By.id("shared_link_obs"));
+		campoObservacoess.sendKeys("O que é Lorem Ipsum? "
+	    		+ "Lorem Ipsum é simplesmente uma simulação de texto da indústria "
+	    		+ "tipográfica e de impressos, e vem sendo utilizado desde o "
+	    		+ "século XVI, quando um impressor desconhecido pegou uma bandeja "
+	    		+ "de tipos e os embaralhou para fazer um livro de modelos de tipos. "
+	    		+ "Lorem Ipsum sobreviveu não só a cinco séculos, como também ao "
+	    		+ "salto para a editoração eletrônica, permanecendo essencialmente "
+	    		+ "inalterado. Se popularizou na década de 60, quando a Letraset "
+	    		+ "lançou decalques contendo passagens de Lorem Ipsum, e mais "
+	    		+ "recentemente quando passou a ser integrado a softwares de "
+	    		+ "editoração eletrônica como Aldus PageMaker.");
+		WebElement btnEnviar                = driver.findElement(By.id("dam_shared_button_submit"));
+		btnEnviar.click();
+  
+    	//Email enviado com sucesso
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Email enviado com sucesso.");	
+		Thread.sleep(1000);
+	    
+		
 	}	  
 
+	public void acaoExcluirDAM() throws InterruptedException{
+
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement acaoRemover = driver.findElement(By.xpath(".//*[@id='dam_acao_remover_diretorio_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoRemover);
+		
+		WebElement excluirPasta = driver.findElement(By.xpath(".//*[@id='dam_action_remove_submit']"));
+		executor.executeScript("arguments[0].click();", excluirPasta);
+		
+	}	  
+	
+	public void acaoRenomearDAM() throws InterruptedException{
+
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement acaoRenomear = driver.findElement(By.xpath(".//*[@id='dam_acao_renomear_diretorio_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoRenomear);
+
+		
+		WebElement limparCampo = driver.findElement(By.id("arquivo_nome"));
+		limparCampo.clear();	
+		
+		WebElement preencherCampo = driver.findElement(By.id("arquivo_nome"));
+		preencherCampo.sendKeys("A14488-Automatizado");
+		
+		WebElement submeterForm = driver.findElement(By.id("dam_action_rename_submit"));
+		submeterForm.click();
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Pasta renomeada com sucesso.");	
+	
+	
+		//------------------------------
+		
+		WebElement acaoRenomearOriginal = driver.findElement(By.xpath(".//*[@id='dam_acao_renomear_diretorio_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoRenomearOriginal);
+		
+		driver.findElement(By.id("arquivo_nome")).clear();
+	    driver.findElement(By.id("arquivo_nome")).sendKeys("A14488");
+	    driver.findElement(By.id("dam_action_rename_submit")).click();
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Pasta renomeada com sucesso.");	
+
+		
+		
+	}	 
+
+	public void acaoFavoritoDAM() throws InterruptedException{
+
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement acaoAddArquivo = driver.findElement(By.xpath(".//*[@id='dam_acao_favorito_folder_add_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoAddArquivo);
+		
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Favorito adicionado com sucesso.");	
+				
+		//Acessando a acao do favorito
+		Thread.sleep(800);
+		WebElement acessandoFavorito = driver.findElement(By.xpath("html/body/div[1]/div[2]/div/div[3]/div[2]/div/a/i"));
+		executor.executeScript("arguments[0].click();", acessandoFavorito);
+				
+		Thread.sleep(1000);
+		WebElement retirarDoFavorito = driver.findElement(By.xpath(".//*[@id='user_favor_remove1']/i"));
+		executor.executeScript("arguments[0].click();", retirarDoFavorito);
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Favorito removido com sucesso.");	
+			
+		
+	}	  
+	
 	public void AcaoBuscarDAM() throws InterruptedException{
 		Thread.sleep(1000);
 		//Fazer busca por diretório
 		driver.findElement(By.id("dam_navegation_index_search_input")).clear();
-		driver.findElement(By.id("dam_navegation_index_search_input")).sendKeys("Automatizando28");
+		driver.findElement(By.id("dam_navegation_index_search_input")).sendKeys(" A14488");
 		driver.findElement(By.cssSelector("button")).click();
 
 	}
 	
+	// ---------------------- Manipulacao de Arquivo ---------------------
+	
+	
+	
+		public void acaoCompartilhamentoDeArquivoNoDAM() throws InterruptedException{
+
+	
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement seletorDeacao = driver.findElement(By.xpath(".//*[@id='dam_acao_compartilhar_arquivo_1']/i"));
+		executor.executeScript("arguments[0].click();", seletorDeacao);
+			
+		Thread.sleep(1000);
+	    
+		WebElement limparCampoTitulo = driver.findElement(By.id("shared_link_titulo"));
+		limparCampoTitulo.clear();
+	    
+		WebElement campoTitulo             = driver.findElement(By.id("shared_link_titulo"));
+		campoTitulo.sendKeys("Email Automatizado");
+		
+		WebElement receberCopia            = driver.findElement(By.id("shared_link_cc"));
+		receberCopia.click();
+		
+		WebElement limparCampoEmails       = driver.findElement(By.id("shared_link_emails"));
+		limparCampoEmails.clear();
+		
+		WebElement campoEmails             = driver.findElement(By.id("shared_link_emails"));
+		campoEmails.sendKeys("anderson.rolim@casavaticano.com.br");
+		
+		WebElement limparCampoObservacoess = driver.findElement(By.id("shared_link_obs"));
+		limparCampoObservacoess.clear();
+		
+		WebElement campoObservacoess       = driver.findElement(By.id("shared_link_obs"));
+		campoObservacoess.sendKeys("O que é Lorem Ipsum? "
+	    		+ "Lorem Ipsum é simplesmente uma simulação de texto da indústria "
+	    		+ "tipográfica e de impressos, e vem sendo utilizado desde o "
+	    		+ "século XVI, quando um impressor desconhecido pegou uma bandeja "
+	    		+ "de tipos e os embaralhou para fazer um livro de modelos de tipos. "
+	    		+ "Lorem Ipsum sobreviveu não só a cinco séculos, como também ao "
+	    		+ "salto para a editoração eletrônica, permanecendo essencialmente "
+	    		+ "inalterado. Se popularizou na década de 60, quando a Letraset "
+	    		+ "lançou decalques contendo passagens de Lorem Ipsum, e mais "
+	    		+ "recentemente quando passou a ser integrado a softwares de "
+	    		+ "editoração eletrônica como Aldus PageMaker.");
+		WebElement btnEnviar                = driver.findElement(By.id("dam_shared_button_submit"));
+		btnEnviar.click();
+  
+    	//Email enviado com sucesso
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Email enviado com sucesso.");	
+		Thread.sleep(1000);
+	    
+		
+	}	  
+	
+	public void acaoRenomearArquivoNoDAM() throws InterruptedException{
+
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement acaoRenomear = driver.findElement(By.xpath(".//*[@id='dam_acao_renomear_arquivo_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoRenomear);
+
+		
+		WebElement limparCampo = driver.findElement(By.id("arquivo_nome"));
+		limparCampo.clear();	
+		
+		WebElement preencherCampo = driver.findElement(By.id("arquivo_nome"));
+		preencherCampo.sendKeys("A14488-Arquivo_Automatizado");
+		
+		WebElement submeterForm = driver.findElement(By.id("dam_action_rename_submit"));
+		submeterForm.click();
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Arquivo renomeado com sucesso.");	
+	
+	
+		//Desfazer trazendo para o nome orginal
+		
+		WebElement acaoRenomearOriginal = driver.findElement(By.xpath(".//*[@id='dam_acao_renomear_arquivo_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoRenomearOriginal);
+		
+		driver.findElement(By.id("arquivo_nome")).clear();
+	    driver.findElement(By.id("arquivo_nome")).sendKeys("Lata de Milho");
+	    driver.findElement(By.id("dam_action_rename_submit")).click();
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Arquivo renomeado com sucesso.");	
+			
+	}	 
+
+	public void acaoFavoritoDeArquivoNoDAM() throws InterruptedException{
+
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		
+		WebElement acaoAddArquivo = driver.findElement(By.xpath(".//*[@id='dam_acao_favorito_file_add_1']/i"));
+		executor.executeScript("arguments[0].click();", acaoAddArquivo);
+		
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Favorito adicionado com sucesso.");	
+				
+		//Acessando a acao do favorito
+		Thread.sleep(800);
+		WebElement acessandoFavorito = driver.findElement(By.xpath("html/body/div[1]/div[2]/div/div[3]/div[2]/div/a/i"));
+		executor.executeScript("arguments[0].click();", acessandoFavorito);
+				
+		Thread.sleep(1000);
+		WebElement retirarDoFavorito = driver.findElement(By.xpath(".//*[@id='user_favor_remove1']/i"));
+		executor.executeScript("arguments[0].click();", retirarDoFavorito);
+
+		Thread.sleep(1000);
+		Assert.assertEquals(validarMensagem(), "×" + "\n" + "Favorito removido com sucesso.");	
+			
+		
+	}	  
+	
+	public void AcaoBuscarPastaDeImagemNoDAM() throws InterruptedException{
+		Thread.sleep(1000);
+		//Fazer busca por diretório
+		driver.findElement(By.id("dam_navegation_index_search_input")).clear();
+		driver.findElement(By.id("dam_navegation_index_search_input")).sendKeys("Imagens_Automacao");
+		driver.findElement(By.cssSelector("button")).click();
+		
+		//Clica na pasta de imagens
+		driver.findElement(By.id("dam_index_folder_1")).click();
+
+	}
+	
+	
+	
+	
+	
 	//------------------------MODULO DRM --------------------
 
 	public void acessandoModuloDRM() throws InterruptedException {
+		Thread.sleep(1000);
 		// Acessando Modulo Tracks
 		WebElement moduloDRM = driver.findElement(By.linkText("DRM"));
 		moduloDRM.click();
 		Thread.sleep(1000);
+		
+	
+		
+		
 	}
 	
 	
@@ -475,51 +732,68 @@ public class CadastroPages {
 		ordenacaoDRM();
 		AcaoCriarDireitoDeUsoPasta();
 
-
 	}
 	
 	
 	  public void AcaoCriarDireitoDeUsoArquivo() throws InterruptedException{
 
-		    driver.findElement(By.id("new-process-instance")).click();
-		    driver.findElement(By.cssSelector("#direito_uso_novo_arquivo_link > i")).click();
+		  WebElement novoFormDRM = driver.findElement(By.id("new-process-instance"));
+		  novoFormDRM.click();
+		  
+		  WebElement novoDRMparaArquivo = driver.findElement(By.cssSelector("#direito_uso_novo_arquivo_link > i"));
+		  novoDRMparaArquivo.click();
 		
-			Thread.sleep(800);
-			WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
-			agencia.click();
+		  Thread.sleep(800);
+		  WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
+		  agencia.click();
 			
-			Thread.sleep(800);
-			WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
-			anunciante.click();
+		  Thread.sleep(800);
+		  WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
+		  anunciante.click();
 			
-			Thread.sleep(800);
-			WebElement Com_Data = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
-			Com_Data.click();
-	
-			driver.findElement(By.id("form_727_field_799")).clear();
-		    driver.findElement(By.id("form_727_field_799")).sendKeys("121241-Arquivo");
-		    driver.findElement(By.id("form_727_field_800")).clear();
-		    driver.findElement(By.id("form_727_field_800")).sendKeys("DRM-Automatizado-Arquivo");
+		  Thread.sleep(800);
+		  WebElement CampoTipo = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
+		  CampoTipo.click();
+		  
+		  WebElement limparCampoCodigo = driver.findElement(By.id("form_727_field_799"));
+		  limparCampoCodigo.clear();
+		  
+		  WebElement CampoCodigo = driver.findElement(By.id("form_727_field_799"));
+		  CampoCodigo.sendKeys("121241-Arquivo");
+		  
+		  WebElement limparCampoTitulo = driver.findElement(By.id("form_727_field_800"));
+		  limparCampoTitulo.clear();
+		  
+		  WebElement CampoTitulo = driver.findElement(By.id("form_727_field_800"));
+		  CampoTitulo.sendKeys("DRM-Automatizado-Arquivo");
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.id("form_727_field_802")).click();
-		    Thread.sleep(800);
+		  WebElement campoDataDeInicio = driver.findElement(By.id("form_727_field_802"));
+		  campoDataDeInicio.click();
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.linkText("1")).click();
+		  WebElement selectDayInicio =   driver.findElement(By.linkText("1"));
+		  selectDayInicio.click();
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.id("form_727_field_803")).click();
+		  WebElement submeterDayInicio =driver.findElement(By.id("form_727_field_803"));
+		  submeterDayInicio.click();
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e")).click();
+		  WebElement campoDataDeTermino = driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e"));
+		  campoDataDeTermino.click();
 
-		    driver.findElement(By.linkText("31")).click();
+		  WebElement selectDayFim = driver.findElement(By.linkText("31"));
+		  selectDayFim.click();
 		    
-		    driver.findElement(By.id("form_727_field_804")).clear();
-		    driver.findElement(By.id("form_727_field_804")).sendKeys("O que é Lorem Ipsum? "
+		  WebElement limparCampoDescricao = driver.findElement(By.id("form_727_field_804"));
+		  limparCampoDescricao.clear();
+		  
+		  WebElement campoDescricao = driver.findElement(By.id("form_727_field_804"));
+		  campoDescricao.sendKeys("O que é Lorem Ipsum? "
 		    		+ "Lorem Ipsum é simplesmente uma simulação de texto da indústria "
 		    		+ "tipográfica e de impressos, e vem sendo utilizado desde o "
 		    		+ "século XVI, quando um impressor desconhecido pegou uma bandeja "
@@ -531,52 +805,70 @@ public class CadastroPages {
 		    		+ "recentemente quando passou a ser integrado a softwares de "
 		    		+ "editoração eletrônica como Aldus PageMaker.");
 		    
-		    driver.findElement(By.name("btn")).click();
+		  WebElement submeterFormDrm =driver.findElement(By.name("btn"));
+		  submeterFormDrm.click();
 		    		  
 	}	 
 	
 	  public void AcaoCriarDireitoDeUsoPasta() throws InterruptedException{
 
-		    driver.findElement(By.id("new-process-instance")).click();
-		    driver.findElement(By.cssSelector("#direito_uso_novo_diretório_link > i")).click();
+		  WebElement novoFormDRM = driver.findElement(By.id("new-process-instance"));
+		  novoFormDRM.click();
+		  
+		  WebElement novoDRMparaArquivo = driver.findElement(By.cssSelector("#direito_uso_novo_diretório_link > i"));
+		  novoDRMparaArquivo.click();
 		
-			Thread.sleep(800);
-			WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
-			agencia.click();
+		  Thread.sleep(800);
+		  WebElement agencia = driver.findElement(By.xpath(".//*[@id='form_727_field_806']/option[3]"));
+		  agencia.click();
 			
-			Thread.sleep(800);
-			WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
-			anunciante.click();
+		  Thread.sleep(800);
+		  WebElement anunciante = driver.findElement(By.xpath(".//*[@id='form_727_field_807']/option[3]"));
+		  anunciante.click();
 			
-			Thread.sleep(800);
-			WebElement Com_Data = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
-			Com_Data.click();
-	
-			int x=0;
-			driver.findElement(By.id("form_727_field_799")).clear();
-		    driver.findElement(By.id("form_727_field_799")).sendKeys("121245-Pasta-"+x+"-Pasta");
-		    driver.findElement(By.id("form_727_field_800")).clear();
-		    driver.findElement(By.id("form_727_field_800")).sendKeys("DRM-Automatizado-Pasta");
+		  Thread.sleep(800);
+		  WebElement CampoTipo = driver.findElement(By.xpath(".//*[@id='form_727_field_801']/option[3]"));
+		  CampoTipo.click();
+		  WebElement limparCampoCodigo = driver.findElement(By.id("form_727_field_799"));
+		  limparCampoCodigo.clear();
+		  
+		  int x=25101983;
+		  WebElement CampoCodigo = driver.findElement(By.id("form_727_field_799"));
+		  CampoCodigo.sendKeys("121245-Pasta-"+x+"-Pasta");
+		  
+		  WebElement limparCampoTitulo = driver.findElement(By.id("form_727_field_800"));
+		  limparCampoTitulo.clear();
+		  WebElement CampoTitulo = driver.findElement(By.id("form_727_field_800"));
+		  CampoTitulo.sendKeys("DRM-Automatizado-Arquivo");
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.id("form_727_field_802")).click();
-		    Thread.sleep(800);
+		  WebElement campoDataDeInicio = driver.findElement(By.id("form_727_field_802"));
+		  campoDataDeInicio.click();
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.linkText("1")).click();
+		  WebElement selectDayInicio =   driver.findElement(By.linkText("1"));
+		  selectDayInicio.click();
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.id("form_727_field_803")).click();
+		  WebElement submeterDayInicio =driver.findElement(By.id("form_727_field_803"));
+		  submeterDayInicio.click();
 		    
-		    Thread.sleep(800);
+		  Thread.sleep(800);
 		    
-		    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e")).click();
+		  WebElement campoDataDeTermino = driver.findElement(By.cssSelector("span.ui-icon.ui-icon-circle-triangle-e"));
+		  campoDataDeTermino.click();
 
-		    driver.findElement(By.linkText("31")).click();
+		  WebElement selectDayFim = driver.findElement(By.linkText("31"));
+		  selectDayFim.click();
 		    
-		    driver.findElement(By.id("form_727_field_804")).clear();
-		    driver.findElement(By.id("form_727_field_804")).sendKeys("Lorem ipsum dolor sit amet, amet auctor et elementum "
+		  WebElement limparCampoDescricao = driver.findElement(By.id("form_727_field_804"));
+		  limparCampoDescricao.clear();
+	
+		  
+		  WebElement campoDescricao = driver.findElement(By.id("form_727_field_804"));
+		  campoDescricao.sendKeys("Lorem ipsum dolor sit amet, amet auctor et elementum "
 		    		+ "eget, nam imperdiet eros lorem dui ad, lectus vel vehicula, leo leo ipsum quam, erat et tristique magna "
 		    		+ "mauris. Quisque sodales erat, porttitor quisque tellus scelerisque, elit vel, pharetra integer minim "
 		    		+ "auctor aenean enim. In purus pharetra, congue in leo. Ea feugiat sed, arcu urna a morbi at arcu convallis, "
@@ -595,7 +887,8 @@ public class CadastroPages {
 		    		+ "Vestibulum mattis lacinia, morbi in, bibendum libero ante libero hendrerit, urna et eget eget. "
 		    		+ "Vel montes vitae porttitor.");
 		    
-		    driver.findElement(By.name("btn")).click();
+		  WebElement submeterFormDrm =driver.findElement(By.name("btn"));
+		  submeterFormDrm.click();
 		    	  
 	}	 
 
@@ -614,17 +907,23 @@ public class CadastroPages {
 			
 			Thread.sleep(1000);
 
-		    driver.findElement(By.xpath("//a[contains(text(),'Tipo')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Vigência')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Título')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Código')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Data vencimento')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Data inicial')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Anunciante')]")).click();
-		    driver.findElement(By.xpath("//a[contains(text(),'Agência')]")).click();
-
-		   // driver.findElement(By.xpath("/html/body/div[6]/div/div/div[2]/div[2]/div[1]/button"));
-		    		
+			WebElement colunaTipo = driver.findElement(By.xpath("//a[contains(text(),'Tipo')]"));
+			colunaTipo.click();
+			WebElement colunaVigencia = driver.findElement(By.xpath("//a[contains(text(),'Vigência')]"));
+			colunaVigencia.click();
+			WebElement colunaTitulo = driver.findElement(By.xpath("//a[contains(text(),'Título')]"));
+			colunaTitulo.click();
+			WebElement colunaCodigo = driver.findElement(By.xpath("//a[contains(text(),'Código')]"));
+			colunaCodigo.click();
+			WebElement colunaDataVencimento = driver.findElement(By.xpath("//a[contains(text(),'Data vencimento')]"));
+			colunaDataVencimento.click();
+			WebElement colunaDataInicial = driver.findElement(By.xpath("//a[contains(text(),'Data inicial')]"));
+			colunaDataInicial.click();
+			WebElement colunaAnunciante = driver.findElement(By.xpath("//a[contains(text(),'Anunciante')]"));
+			colunaAnunciante.click();
+			WebElement colunaAgencia = driver.findElement(By.xpath("//a[contains(text(),'Agência')]"));
+			colunaAgencia.click();
+	    		
 
 		}
 		

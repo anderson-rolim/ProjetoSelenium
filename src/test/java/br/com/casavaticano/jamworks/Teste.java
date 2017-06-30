@@ -1,5 +1,6 @@
 package br.com.casavaticano.jamworks;
 
+import java.awt.AWTException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
@@ -119,6 +120,7 @@ public class Teste {
 //------------------------MODULO DAM --------------------
 
 	//------------------------DAM------------------------
+	
 	@Test
 	public void Teste15() throws InterruptedException {
 		cadastroPages.acessandoModuloDAM();
@@ -144,39 +146,99 @@ public class Teste {
 	}
 
 	
-	//------------------------MODULO DRM --------------------
-
+	//--------------------------------------------------
 	
-
 	@Test
-	public void Teste20() throws InterruptedException {
+	public void Teste19() throws InterruptedException {
 		
-		cadastroPages.acessandoModuloDRM();
+		cadastroPages.AcaoBuscarDAM();
+	}
+	
+	@Test
+	public void Teste20() throws InterruptedException, AWTException {
 		
-		
+		//Compartilhar pasta
+		cadastroPages.acaoCompartilhamentoDAM();
+			
 	}
 	
 	@Test
 	public void Teste21() throws InterruptedException {
 		
-		cadastroPages.drmArquivoDiretorio();
-		
-		
+		//Renomear pasta
+		cadastroPages.acaoRenomearDAM();
+				
 	}
-	
 	@Test
 	public void Teste22() throws InterruptedException {
-		Assert.assertEquals(cadastroPages.validarMensagem(), "×" + "\n" + "Direito de uso editado com sucesso.");
+		
+		//Incluir Pasta no favorito
+		cadastroPages.acaoFavoritoDAM();
 	}
+
 	@Test
 	public void Teste23() throws InterruptedException {
 		
-		cadastroPages.buscaDRM();
+		//Excluir pasta
+		cadastroPages.acaoExcluirDAM();		
+				
+	}
+	
+	public void Teste24() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.AcaoBuscarPastaDeImagemNoDAM();
+	}
+	
+	public void Teste25() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoCompartilhamentoDeArquivoNoDAM();
+	}
+	
+	public void Teste26() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoRenomearArquivoNoDAM();
+	}
+	
+	public void Teste27() throws InterruptedException {
+		
+		//Buscar a pasta de imagem
+		cadastroPages.acaoFavoritoDeArquivoNoDAM();
+	}
+		
+	
+	//------------------------MODULO DRM --------------------
+
+	
+	@Test
+	public void Teste28() throws InterruptedException {
+		
+		cadastroPages.acessandoModuloDRM();
+			
+	}
+	
+	@Test
+	public void Teste29() throws InterruptedException {
+		
+		cadastroPages.drmArquivoDiretorio();	
 		
 	}
 	
 	@Test
-	public void Teste24() throws InterruptedException {
+	public void Teste30() throws InterruptedException {
+		Assert.assertEquals(cadastroPages.validarMensagem(), "×" + "\n" + "Direito de uso editado com sucesso.");
+	}
+	
+	@Test
+	public void Teste31() throws InterruptedException {
+		
+		cadastroPages.buscaDRM();	
+	}
+	
+	@Test
+	public void Teste32() throws InterruptedException {
 		
 		cadastroPages.ordenacaoDRM();
 		
@@ -184,7 +246,7 @@ public class Teste {
 	
 
 	@Test
-	public void Teste25() throws InterruptedException {
+	public void Teste33() throws InterruptedException {
 		// Mensagem da atividade salva
 		cadastroPages.acaoLogout();
 
